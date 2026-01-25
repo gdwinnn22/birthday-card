@@ -1,0 +1,133 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(to right, rgb(255, 231, 238), #ffd7ef);
+  font-family: sans-serif;
+}
+
+.cake-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0;
+}
+
+.layer {
+  position: absolute;
+  left: 0;
+  width: 200px;
+  height: 60px;
+  border-radius: 15px;
+  transform: translateY(-400px);
+  opacity: 0;
+}
+
+/* Warna tiap lapis */
+.layer1 {
+  background: #ffb3c6;
+  bottom: 0;
+}
+
+.layer2 {
+  background: #ffc8dd;
+  bottom: 30px;
+}
+
+.layer3 {
+  background: #ffafcc;
+  bottom: 60px;
+}
+
+/* Animasi jatuh */
+.drop {
+  animation: drop 0.8s ease-out forwards;
+}
+
+@keyframes drop {
+  0% {
+    transform: translateY(-400px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  background: #ff85a2;
+  color: white;
+  cursor: pointer;
+}
+
+span {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 18px;
+}
+
+/* Lilin */
+.candle {
+  position: absolute;
+  bottom: 115px;
+  left: 50%;
+  transform: translateX(-75%);
+  width: 12px;
+  height: 45px;
+  background: linear-gradient(#fff, #ffd6e0);
+  border-radius: 6px;
+  opacity: 0;
+}
+
+/* Api */
+.flame {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 22px;
+  background: radial-gradient(circle, #fff176, #ff9800, #ff5722);
+  border-radius: 50% 50% 50% 50%;
+  animation: flicker 0.15s infinite alternate;
+}
+
+/* Api berkedip */
+@keyframes flicker {
+  0% {
+    transform: translateX(-50%) scale(1) rotate(-2deg);
+  }
+  100% {
+    transform: translateX(-50%) scale(1.1) rotate(2deg);
+  }
+}
+
+/* Animasi lilin muncul */
+.show-candle {
+  animation: candlePop 0.6s ease forwards;
+}
+
+@keyframes candlePop {
+  0% {
+    transform: translateX(-50%) translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+#typing-text {
+  font-size: 32px;
+  font-weight: bold;
+  color: #ff5d8f;
+  letter-spacing: 2px;
+  font-family: 'Comic Sans MS', cursive;
+}

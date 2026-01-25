@@ -1,0 +1,55 @@
+body {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+label {
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    margin: 3rem;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+}
+
+fieldset {
+    height: 70vh;
+}
+.date {
+    display: block;
+    padding: 10px 30px;
+    width: 75%;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 0;
+}
+.date:focus {
+    outline: solid 0.5px black;
+    border-radius: 0;
+}
+option {
+    font-size: 18px;
+    width: 100%;
+}
+.select {
+    text-align: start;
+}
+#day{
+    border-radius: 10px 10px 0 0;
+    box-sizing: border-box;
+}
+#month{
+    border-radius: 0;
+    box-sizing: border-box;
+}
+#year{
+    border-radius: 0 0 10px 10px;
+    box-sizing: border-box;
+}
+#submit {
+    font-size: 15px;
+    padding: 10px 30px;
+    cursor: pointer;
+}
