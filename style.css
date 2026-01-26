@@ -13,43 +13,67 @@ main {
     display: flex;
     justify-content: center;
 }
+.form-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+}
+.select-coloumn {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 
-fieldset {
-    height: 70vh;
+.submit-box {
+  display: flex;
+  align-items: flex-start;
 }
-.date {
-    display: block;
-    padding: 10px 30px;
-    width: 75%;
-    font-size: 20px;
-    cursor: pointer;
-    border-radius: 0;
-}
-.date:focus {
-    outline: solid 0.5px black;
-    border-radius: 0;
-}
-option {
-    font-size: 18px;
-    width: 100%;
-}
-.select {
-    text-align: start;
-}
-#day{
-    border-radius: 10px 10px 0 0;
-    box-sizing: border-box;
-}
-#month{
-    border-radius: 0;
-    box-sizing: border-box;
-}
-#year{
-    border-radius: 0 0 10px 10px;
-    box-sizing: border-box;
-}
+
 #submit {
-    font-size: 15px;
-    padding: 10px 30px;
-    cursor: pointer;
+  font-size: 15px;
+  padding: 20px 40px;
+  cursor: pointer;
 }
+
+
+.custom-select {
+  position: relative;
+  position: relative;
+  width: 200px;
+}
+
+.selected {
+  font-family: sans-serif;
+  padding: 10px;
+  border: 1px solid #ccc;
+
+  cursor: pointer;
+}
+
+.options {
+  position: absolute;
+  top: 0;
+  left: 100%; /* ⬅️ muncul di kanan */
+  margin-left: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  display: none;
+  min-width: 80px;
+  max-height: 180px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.options div {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.options div:hover {
+  background: #eee;
+}
+
+.options.open {
+  display: block;
+}
+

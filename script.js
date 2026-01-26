@@ -1,30 +1,33 @@
-const daySelect = document.getElementById("day");
-const monthSelect = document.getElementById("month");
-const yearSelect = document.getElementById("year");
+const selectedList = document.querySelectorAll(".selected");
 
-function updateDays() {
-  const month = parseInt(monthSelect.value);
+selectedList.forEach(selected => {
+  const options = selected.nextElementSibling; // ⬅️ options milik selected ini
 
-  let daysInMonth;
+  // Klik selected → buka options miliknya
+  selected.addEventListener("click", (e) => {
+    e.stopPropagation();
 
-  if (month === 2) {
-    daysInMonth = 28;
-  } else if ([4, 6, 9, 11].includes(month)) {
-    daysInMonth = 30;
-  } else {
-    daysInMonth = 31;
-  }
+    // Tutup semua options lain
+    document.querySelectorAll(".options.open").forEach(opt => {
+      if (opt !== options) opt.classList.remove("open");
+    });
 
-  // Reset hari
-  daySelect.innerHTML =
-    `<option value="" selected disabled hidden>Hari</option>`;
+    options.classList.toggle("open");
+  });
 
-  for (let i = 1; i <= daysInMonth; i++) {
-    const day = i.toString().padStart(2, "0");
-    daySelect.innerHTML += `<option value="${day}">${day}</option>`;
-  }
-}
+  // Klik option di dalamnya
+  options.querySelectorAll("div").forEach(option => {
+    option.addEventListener("click", (e) => {
+      e.stopPropagation();
+      selected.textContent = option.textContent;
+      options.classList.remove("open");
+    });
+  });
+});
 
-// Event listener
-monthSelect.addEventListener("change", updateDays);
-
+// Klik di luar → tutup semua
+document.addEventListener("click", () => {
+  document.querySelectorAll(".options.open").forEach(opt => {
+    opt.classList.remove("open");
+  });
+});
