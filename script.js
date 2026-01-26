@@ -31,3 +31,7 @@ document.addEventListener("click", () => {
     opt.classList.remove("open");
   });
 });
+
+if (selected.textContent === "Februari") {
+  
+};
