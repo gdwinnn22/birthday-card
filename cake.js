@@ -1,35 +1,108 @@
-function dropCake() {
-  const layers = document.querySelectorAll('.layer');
-  const candle = document.querySelector('.candle');
+const body = document.body;
+const candle = document.querySelector(".candle");
+const layers = document.querySelectorAll(".layer");
+const sprinkles = document.querySelector(".sprinkles");
+const confettiContainer = document.querySelector(".confetti-container");
+const text = document.getElementById("typing-text");
 
-  layers.forEach((layer, index) => {
-    setTimeout(() => {
-      layer.classList.add('drop');
-    }, index * 600);
-  });
+let isOn = false;
+let cakeDropped = false;
 
-  // Lilin muncul terakhir
-  setTimeout(() => {
-    candle.classList.add('show-candle');
-  }, layers.length * 600 + 400);
+/* CLICK LILIN */
+candle.addEventListener("click", () => {
+  if (!isOn) {
+    turnOn();
+  } else {
+    turnOff();
+  }
+});
 
-  // Teks muncul setelah lilin
-  setTimeout(() => {
-    typeText("Happy Birthday Bestiee!🥳🥳🥳", "typing-text", 120);
-  }, layers.length * 600 + 1000);
+/* TURN ON */
+function turnOn() {
+  isOn = true;
+  candle.classList.add("on");
+  body.classList.remove("dark");
+  body.classList.add("light");
+
+  if (!cakeDropped) {
+    dropCake();
+    createSprinkles();
+    cakeDropped = true;
+  }
+
+  launchConfetti();
+  showText();
 }
 
-function typeText(text, elementId, speed = 120) {
+/* TURN OFF */
+function turnOff() {
+  isOn = false;
+  candle.classList.remove("on");
+  body.classList.remove("light");
+  body.classList.add("dark");
+  
+  sprinkles.classList.remove("show");
+  text.classList.remove("show");
+
+  if (cakeDropped) {
+    layers.forEach((layer) => {
+      layer.classList.remove("drop");
+    });
+    cakeDropped = false;
+  }
+}
+
+/* DROP CAKE */
+function dropCake() {
+  layers.forEach((layer, i) => {
+    setTimeout(() => {
+      layer.classList.add("drop");
+    }, i * 600);
+  });
+
+  setTimeout(() => {
+    sprinkles.classList.add("show");
+  }, layers.length * 600);
+}
+
+/* BIRTHDAY TEXT */
+function showText() {
+  text.classList.add("show");
+  typeText("Happy Birthday Bestiee! 🎂🥳", "typing-text", 120);
+}
+
+function typeText(textStr, id, speed) {
   let i = 0;
-  const element = document.getElementById(elementId);
-  element.textContent = "";
+  const el = document.getElementById(id);
+  el.textContent = "";
 
   const interval = setInterval(() => {
-    element.textContent += text[i];
-    i++;
-
-    if (i === text.length) {
-      clearInterval(interval);
-    }
+    el.textContent += textStr[i++];
+    if (i === textStr.length) clearInterval(interval);
   }, speed);
+}
+
+/* SPRINKLES */
+function createSprinkles() {
+  const colors = ["#ffc8dd", "#ffafcc", "#bde0fe", "#cdb4db", "#ffd6a5"];
+  for (let i = 0; i < 30; i++) {
+    const s = document.createElement("span");
+    s.style.background = colors[Math.floor(Math.random() * colors.length)];
+    sprinkles.appendChild(s);
+  }
+}
+
+/* CONFETTI */
+function launchConfetti() {
+  const colors = ["#ffc8dd", "#ffafcc", "#bde0fe", "#cdb4db", "#ffd6a5"];
+
+  for (let i = 0; i < 60; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.animationDuration = 2 + Math.random() * 3 + "s";
+    confettiContainer.appendChild(c);
+    setTimeout(() => c.remove(), 5000);
+  }
 }

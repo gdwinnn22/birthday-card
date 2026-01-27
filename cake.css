@@ -1,31 +1,66 @@
+/* ===============================
+   RESET
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
+  height: 100vh;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background: linear-gradient(to right, rgb(255, 231, 238), #ffd7ef);
-  font-family: sans-serif;
+  overflow: hidden;
+  transition: background 1s ease;
 }
 
+/* DARK MODE */
+body.dark {
+  background: radial-gradient(circle, #222, #000);
+}
+
+/* LIGHT MODE */
+body.light {
+  background: linear-gradient(to right, #ffe7ee, #ffd7ef);
+}
+
+/* TEXT */
+#typing-text {
+  font-size: 32px;
+  color: #ff5d8f;
+  margin-bottom: 25px;
+  min-height: 40px;
+  opacity: 0;
+  transition: opacity 0.8s;
+}
+
+#typing-text.show {
+  opacity: 1;
+}
+
+/* CAKE */
 .cake-container {
   position: relative;
   width: 200px;
-  height: 200px;
-  margin: 0;
+  height: 240px;
 }
 
-.layer {
+/* CAKE LAYERS */
+.layer{
+  display: block;
   position: absolute;
   left: 0;
   width: 200px;
   height: 60px;
-  border-radius: 15px;
+  border-radius: 18px;
   transform: translateY(-400px);
   opacity: 0;
 }
 
-/* Warna tiap lapis */
 .layer1 {
   background: #ffb3c6;
   bottom: 0;
@@ -41,51 +76,34 @@ body {
   bottom: 60px;
 }
 
-/* Animasi jatuh */
 .drop {
   animation: drop 0.8s ease-out forwards;
 }
 
 @keyframes drop {
-  0% {
-    transform: translateY(-400px);
-    opacity: 0;
-  }
-  100% {
+  to {
     transform: translateY(0);
     opacity: 1;
   }
 }
 
-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 20px;
-  background: #ff85a2;
-  color: white;
-  cursor: pointer;
-}
 
-span {
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 18px;
-}
-
-/* Lilin */
+/* CANDLE */
 .candle {
   position: absolute;
   bottom: 115px;
   left: 50%;
-  transform: translateX(-75%);
+  transform: translateX(-50%);
   width: 12px;
   height: 45px;
   background: linear-gradient(#fff, #ffd6e0);
   border-radius: 6px;
-  opacity: 0;
+  cursor: pointer;
+  z-index: 10;
 }
 
-/* Api */
+/* CANDLE FLAME */
+
 .flame {
   position: absolute;
   top: -22px;
@@ -94,40 +112,65 @@ span {
   width: 16px;
   height: 22px;
   background: radial-gradient(circle, #fff176, #ff9800, #ff5722);
-  border-radius: 50% 50% 50% 50%;
+  border-radius: 50%;
   animation: flicker 0.15s infinite alternate;
+  display: none;
 }
 
-/* Api berkedip */
+.candle.on .flame {
+  display: block;
+}
+
 @keyframes flicker {
-  0% {
-    transform: translateX(-50%) scale(1) rotate(-2deg);
-  }
-  100% {
-    transform: translateX(-50%) scale(1.1) rotate(2deg);
+  to {
+    transform: translateX(-50%) scale(1.1);
   }
 }
 
-/* Animasi lilin muncul */
-.show-candle {
-  animation: candlePop 0.6s ease forwards;
+/* SPRINKLES */
+.sprinkles {
+  position: absolute;
+  bottom: 90px;
+  left: 10px;
+  width: 180px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  opacity: 0;
 }
 
-@keyframes candlePop {
-  0% {
-    transform: translateX(-50%) translateY(-20px);
+.sprinkles span {
+  width: 8px;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.sprinkles.show {
+  animation: fadeIn 0.8s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* CONFETTI */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 14px;
+  opacity: 0.8;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
     opacity: 0;
   }
-  100% {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-  }
-}
-
-#typing-text {
-  font-size: 32px;
-  font-weight: bold;
-  color: #ff5d8f;
-  letter-spacing: 2px;
-  font-family: 'Comic Sans MS', cursive;
 }
