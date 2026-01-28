@@ -17,6 +17,23 @@ candle.addEventListener("click", () => {
   }
 });
 
+/* SHOW SECONDARY ELEMENTS */
+function showSecondary() {
+  document.querySelector(".left").classList.add("show");
+  setTimeout(() => {
+    document.querySelector(".right").classList.add("show");
+  }, 750);
+  document.querySelector(".left .age").classList.remove("off");
+  document.querySelector(".right .age").classList.remove("off");
+}
+
+function hideSecondary() {
+  document.querySelector(".left").classList.remove("show");
+  document.querySelector(".right").classList.remove("show");
+  document.querySelector(".left .age").classList.add("off");
+  document.querySelector(".right .age").classList.add("off");
+}
+
 /* TURN ON */
 function turnOn() {
   isOn = true;
@@ -30,6 +47,9 @@ function turnOn() {
     cakeDropped = true;
   }
 
+  setTimeout(() => {
+    showSecondary();
+  }, 2000);
   launchConfetti();
   showText();
   playAudio();
@@ -45,6 +65,7 @@ function turnOff() {
   sprinkles.classList.remove("show");
   text.classList.remove("show");
 
+  hideSecondary();
   resetCake();
   clearSprinkles();
   clearText("typing-text");
