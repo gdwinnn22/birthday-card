@@ -174,3 +174,8 @@ body.light {
     opacity: 0;
   }
 }
+
+/* AUDIO CONTROLS */
+audio {
+  display: none;
+}

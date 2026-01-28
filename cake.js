@@ -32,6 +32,7 @@ function turnOn() {
 
   launchConfetti();
   showText();
+  playAudio();
 }
 
 /* TURN OFF */
@@ -44,12 +45,10 @@ function turnOff() {
   sprinkles.classList.remove("show");
   text.classList.remove("show");
 
-  if (cakeDropped) {
-    layers.forEach((layer) => {
-      layer.classList.remove("drop");
-    });
-    cakeDropped = false;
-  }
+  resetCake();
+  clearSprinkles();
+  clearText("typing-text");
+  stopAudio();
 }
 
 /* DROP CAKE */
@@ -64,6 +63,13 @@ function dropCake() {
     sprinkles.classList.add("show");
   }, layers.length * 600);
 }
+
+function resetCake() {
+  layers.forEach((layer) => {
+    layer.classList.remove("drop");
+  });
+  cakeDropped = false;
+};
 
 /* BIRTHDAY TEXT */
 function showText() {
@@ -82,6 +88,12 @@ function typeText(textStr, id, speed) {
   }, speed);
 }
 
+function clearText(id) {
+  const el = document.getElementById(id);
+  el.textContent = "";
+  interval = null;
+}
+
 /* SPRINKLES */
 function createSprinkles() {
   const colors = ["#ffc8dd", "#ffafcc", "#bde0fe", "#cdb4db", "#ffd6a5"];
@@ -90,6 +102,10 @@ function createSprinkles() {
     s.style.background = colors[Math.floor(Math.random() * colors.length)];
     sprinkles.appendChild(s);
   }
+}
+
+function clearSprinkles() {
+  sprinkles.innerHTML = "";
 }
 
 /* CONFETTI */
@@ -106,3 +122,21 @@ function launchConfetti() {
     setTimeout(() => c.remove(), 5000);
   }
 }
+
+/* AUDIO PLAYBACK */
+const horn = document.getElementById("horn");
+const birthdayMusic = document.getElementById("birthday-music");
+
+function playAudio() {
+  horn.play();
+  setTimeout(() => {
+    birthdayMusic.play();
+  }, 1000);
+};
+
+function stopAudio() {
+  horn.pause();
+  horn.currentTime = 0;
+  birthdayMusic.pause();
+  birthdayMusic.currentTime = 0;
+};
