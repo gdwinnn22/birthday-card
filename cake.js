@@ -1,135 +1,160 @@
+/* ===============================
+   ELEMENTS
+================================ */
 const body = document.body;
-const candle = document.querySelector(".candle");
+
+// SWITCH
+const switchBtn = document.getElementById("switch");
+
+// CAKE & PARTS
+const cake = document.querySelector(".cake-container");
 const layers = document.querySelectorAll(".layer");
 const sprinkles = document.querySelector(".sprinkles");
-const confettiContainer = document.querySelector(".confetti-container");
-const text = document.getElementById("typing-text");
+const candles = document.querySelectorAll(".candle");
 
-let isOn = false;
+// TEXT
+const text = document.getElementById("typing-text");
+const hint = document.getElementById("hint");
+
+// CONFETTI
+const confettiContainer = document.querySelector(".confetti-container");
+
+// AUDIO
+const horn = document.getElementById("horn");
+const birthdayMusic = document.getElementById("birthday-music");
+
+/* ===============================
+   STATE
+================================ */
+let state = "OFF";
+// OFF → ON → CANDLE_LIT → BLOWN
+
 let cakeDropped = false;
 
-/* CLICK LILIN */
-candle.addEventListener("click", () => {
-  if (!isOn) {
+/* ===============================
+   SWITCH CLICK
+================================ */
+switchBtn.addEventListener("click", () => {
+  if (state === "OFF") {
     turnOn();
   } else {
     turnOff();
   }
 });
 
-/* SHOW SECONDARY ELEMENTS */
-function showSecondary() {
-  document.querySelector(".left").classList.add("show");
-  setTimeout(() => {
-    document.querySelector(".right").classList.add("show");
-  }, 750);
-  document.querySelector(".left .age").classList.remove("off");
-  document.querySelector(".right .age").classList.remove("off");
-}
-
-function hideSecondary() {
-  document.querySelector(".left").classList.remove("show");
-  document.querySelector(".right").classList.remove("show");
-  document.querySelector(".left .age").classList.add("off");
-  document.querySelector(".right .age").classList.add("off");
-}
-
-/* TURN ON */
+/* ===============================
+   TURN ON (LIGHT ON)
+================================ */
 function turnOn() {
-  isOn = true;
-  candle.classList.add("on");
+  state = "ON";
+
   body.classList.remove("dark");
   body.classList.add("light");
 
-  if (!cakeDropped) {
+  setTimeout(() => {
     dropCake();
     createSprinkles();
-    cakeDropped = true;
-  }
+    launchConfetti();
+  }, 800);
 
   setTimeout(() => {
-    showSecondary();
+    showText();
   }, 2000);
-  launchConfetti();
-  showText();
-  playAudio();
+
+  playAudioSequence();
 }
 
-/* TURN OFF */
+/* ===============================
+   TURN OFF (RESET)
+================================ */
 function turnOff() {
-  isOn = false;
-  candle.classList.remove("on");
+  state = "OFF";
+
   body.classList.remove("light");
   body.classList.add("dark");
-  
-  sprinkles.classList.remove("show");
-  text.classList.remove("show");
 
-  hideSecondary();
   resetCake();
   clearSprinkles();
-  clearText("typing-text");
+  clearText();
+
+  hint.classList.add("hidden");
+
   stopAudio();
+
+  candles.forEach(c => c.classList.remove("off"));
 }
 
-/* DROP CAKE */
+/* ===============================
+   CAKE DROP
+================================ */
 function dropCake() {
+  if (cakeDropped) return;
+
+  cake.classList.remove("hidden");
+
   layers.forEach((layer, i) => {
     setTimeout(() => {
       layer.classList.add("drop");
     }, i * 600);
   });
 
-  setTimeout(() => {
-    sprinkles.classList.add("show");
-  }, layers.length * 600);
+  cakeDropped = true;
 }
 
+/* RESET CAKE */
 function resetCake() {
-  layers.forEach((layer) => {
-    layer.classList.remove("drop");
-  });
+  layers.forEach(layer => layer.classList.remove("drop"));
+  cake.classList.add("hidden");
   cakeDropped = false;
-};
+}
 
-/* BIRTHDAY TEXT */
+/* ===============================
+   TEXT TYPING
+================================ */
 function showText() {
   text.classList.add("show");
-  typeText("Happy Birthday Bestiee! 🎂🥳", "typing-text", 120);
+  typeText("Happy Birthday Bestiee! 🎂🥳", 100);
 }
 
-function typeText(textStr, id, speed) {
+function typeText(str, speed) {
   let i = 0;
-  const el = document.getElementById(id);
-  el.textContent = "";
+  text.textContent = "";
 
   const interval = setInterval(() => {
-    el.textContent += textStr[i++];
-    if (i === textStr.length) clearInterval(interval);
+    text.textContent += str[i++];
+    if (i >= str.length) clearInterval(interval);
   }, speed);
 }
 
-function clearText(id) {
-  const el = document.getElementById(id);
-  el.textContent = "";
-  interval = null;
+function clearText() {
+  text.textContent = "";
+  text.classList.remove("show");
 }
 
-/* SPRINKLES */
+/* ===============================
+   SPRINKLES
+================================ */
 function createSprinkles() {
   const colors = ["#ffc8dd", "#ffafcc", "#bde0fe", "#cdb4db", "#ffd6a5"];
+  sprinkles.innerHTML = "";
+
   for (let i = 0; i < 30; i++) {
     const s = document.createElement("span");
     s.style.background = colors[Math.floor(Math.random() * colors.length)];
     sprinkles.appendChild(s);
   }
+
+  sprinkles.classList.add("show");
 }
 
 function clearSprinkles() {
   sprinkles.innerHTML = "";
+  sprinkles.classList.remove("show");
 }
 
-/* CONFETTI */
+/* ===============================
+   CONFETTI
+================================ */
 function launchConfetti() {
   const colors = ["#ffc8dd", "#ffafcc", "#bde0fe", "#cdb4db", "#ffd6a5"];
 
@@ -139,25 +164,56 @@ function launchConfetti() {
     c.style.left = Math.random() * 100 + "vw";
     c.style.background = colors[Math.floor(Math.random() * colors.length)];
     c.style.animationDuration = 2 + Math.random() * 3 + "s";
+
     confettiContainer.appendChild(c);
     setTimeout(() => c.remove(), 5000);
   }
 }
 
-/* AUDIO PLAYBACK */
-const horn = document.getElementById("horn");
-const birthdayMusic = document.getElementById("birthday-music");
+/* ===============================
+   AUDIO SEQUENCE
+================================ */
+function playAudioSequence() {
+  horn.currentTime = 0;
+  birthdayMusic.currentTime = 0;
 
-function playAudio() {
   horn.play();
-  setTimeout(() => {
+
+  horn.onended = () => {
     birthdayMusic.play();
-  }, 1000);
-};
+  };
+
+  birthdayMusic.onplay = () => {
+    hint.classList.remove("hidden");
+    hint.innerHTML = "Tekan <b>Spasi</b> untuk meniup lilin ✨";
+    state = "CANDLE_LIT";
+  };
+}
 
 function stopAudio() {
   horn.pause();
   horn.currentTime = 0;
+
   birthdayMusic.pause();
   birthdayMusic.currentTime = 0;
-};
+}
+
+/* ===============================
+   SPACE → BLOW CANDLES
+================================ */
+document.addEventListener("keydown", e => {
+  if (e.code === "Space" && state === "CANDLE_LIT") {
+    blowCandles();
+  }
+});
+
+function blowCandles() {
+  candles.forEach(candle => {
+    candle.classList.add("off");
+  });
+
+  birthdayMusic.volume = 0.2;
+
+  hint.innerHTML = "Semoga semua harapanmu terkabul 🤍";
+  state = "BLOWN";
+}
