@@ -209,4 +209,9 @@ body.light .toggle {
     margin: 20px;
     text-align: center;
   }
+
+  #typing-text {
+    margin: 20px;
+    text-align: center;
+  }
 }
