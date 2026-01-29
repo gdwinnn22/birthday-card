@@ -21,7 +21,7 @@ const confettiContainer = document.querySelector(".confetti-container");
 
 // AUDIO
 const horn = document.getElementById("horn");
-const birthdayMusic = document.getElementById("birthday-music");
+const birthdayMusic = document.getElementById("music");
 
 /* ===============================
    STATE
@@ -80,8 +80,9 @@ function turnOff() {
   hint.classList.add("hidden");
 
   stopAudio();
-
-  candles.forEach(c => c.classList.remove("off"));
+  document.querySelectorAll(".flame.off").forEach(flame => {
+    flame.classList.remove("off");
+  })
 }
 
 /* ===============================
@@ -178,10 +179,12 @@ function playAudioSequence() {
   birthdayMusic.currentTime = 0;
 
   horn.play();
+  horn.volume = 0.1;
 
-  horn.onended = () => {
+  setTimeout(() => {
     birthdayMusic.play();
-  };
+    birthdayMusic.volume = 0.1;
+  }, 1000);
 
   birthdayMusic.onplay = () => {
     hint.classList.remove("hidden");
@@ -201,19 +204,34 @@ function stopAudio() {
 /* ===============================
    CLICK → BLOW CANDLES
 ================================ */
+let candleBlown = 0;
 
 candles.forEach(candle => {
-  const flame = candle.nextElementSibling;
-  let candleBlown;
-})
+
+  candle.addEventListener("click", e => {
+    e.stopPropagation();
+
+    if (state !== "CANDLE_LIT") return;
+    if (candle.classList.contains("off")) return;
+
+    candleBlown++;
+    console.log(candleBlown);
+    
+    if (candleBlown >= 3) {
+      blowCandles();
+    }
+    
+  });
+});
 
 function blowCandles() {
   candles.forEach(candle => {
-    candle.classList.add("off");
+    const flame = candle.nextElementSibling;
+    flame.classList.add("off");
   });
 
-  birthdayMusic.volume = 0.2;
+  birthdayMusic.volume = 0.01;
 
-  hint.innerHTML = "Semoga semua harapanmu terkabul 🤍";
+  hint.innerHTML = "Selamat memasuki pengalaman hidup yang ke 15 ya!!, Semoga semua harapanmu terkabul 🤍";
   state = "BLOWN";
 }
