@@ -199,13 +199,13 @@ function stopAudio() {
 }
 
 /* ===============================
-   SPACE → BLOW CANDLES
+   CLICK → BLOW CANDLES
 ================================ */
-document.addEventListener("keydown", e => {
-  if (e.code === "Space" && state === "CANDLE_LIT") {
-    blowCandles();
-  }
-});
+
+candles.forEach(candle => {
+  const flame = candle.nextElementSibling;
+  let candleBlown;
+})
 
 function blowCandles() {
   candles.forEach(candle => {
