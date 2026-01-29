@@ -126,7 +126,7 @@ body.light .toggle {
 /* CANDLES */
 .candles {
   position: absolute;
-  top: 45px;
+  top: 30px;
   width: 100%;
   display: flex;
   justify-content: space-evenly;
@@ -134,7 +134,7 @@ body.light .toggle {
 
 .candle {
   width: 12px;
-  height: 45px;
+  height: 65px;
   background: white;
   border-radius: 6px;
   cursor: pointer;
