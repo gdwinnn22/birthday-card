@@ -79,6 +79,7 @@ function turnOff() {
   clearText();
 
   hint.classList.add("hidden");
+  hint.innerHTML = "Klik pada <b>Lilin</b> untuk meniup lilin ✨";
 
   stopAudio();
   candles.forEach(candle => {
