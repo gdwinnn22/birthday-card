@@ -246,11 +246,11 @@ function playAudioSequence() {
   birthdayMusic.currentTime = 0;
 
   horn.play();
-  horn.volume = 0.1;
+  horn.volume = 0.6;
 
   setTimeout(() => {
     birthdayMusic.play();
-    birthdayMusic.volume = 0.1;
+    birthdayMusic.volume = 0.6;
   }, 1000);
 
   birthdayMusic.onplay = () => {
@@ -275,8 +275,8 @@ function fadeOut(audio, duration = 2000) {
   const intervalTime = duration * step;
 
   const fade = setInterval(() => {
-    if (audio.volume > 0.035) {
-      audio.volume = Math.max(audio.volume - step, 0.035);
+    if (audio.volume > 0.3) {
+      audio.volume = Math.max(audio.volume - step, 0.3);
     } else {
       clearInterval(fade);
     }
