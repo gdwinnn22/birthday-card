@@ -77,17 +77,19 @@ body.light .toggle {
 }
 
 .layer {
+  display: block;
   position: absolute;
   width: 220px;
   height: 60px;
   border-radius: 20px;
   left: 0;
-  transform: translateY(-400px);
+  transform: translateY(-1000px);
+  transition: transform 2s ease;
 }
 
 .layer1 { 
   background: #ffb3c6; 
-  bottom: -18rem;
+  bottom: -22rem;
   z-index: 2;
 }
 
@@ -101,16 +103,16 @@ body.light .toggle {
 }
 .layer3 { 
   background: #ffafcc; 
-  bottom: -22rem; 
+  bottom: -18rem; 
   z-index: 1;
 }
 
-.show-cake .layer {
+.layer.drop {
   animation: drop 1s forwards;
 }
 
 @keyframes drop {
-  to { transform: translateY(0); }
+  to { transform: translateY(-400px); }
 }
 
 /* DECOR */

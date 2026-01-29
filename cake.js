@@ -21,7 +21,7 @@ const confettiContainer = document.querySelector(".confetti-container");
 
 // AUDIO
 const horn = document.getElementById("horn");
-const birthdayMusic = document.getElementById("birthday-music");
+const birthdayMusic = document.getElementById("music");
 
 /* ===============================
    STATE
@@ -178,10 +178,9 @@ function playAudioSequence() {
   birthdayMusic.currentTime = 0;
 
   horn.play();
-
-  horn.onended = () => {
+  setTimeout(() => {
     birthdayMusic.play();
-  };
+  }, 1000);
 
   birthdayMusic.onplay = () => {
     hint.classList.remove("hidden");
