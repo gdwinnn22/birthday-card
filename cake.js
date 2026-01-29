@@ -3,37 +3,38 @@
 ================================ */
 const body = document.body;
 
-// SWITCH
+/* SWITCH */
 const switchBtn = document.getElementById("switch");
 
-// CAKE & PARTS
+/* CAKE & PARTS */
 const cake = document.querySelector(".cake-container");
 const layers = document.querySelectorAll(".layer");
 const sprinkles = document.querySelector(".sprinkles");
-const candles = document.querySelectorAll(".candle");
 
-// TEXT
+// CANDLES
+const candles = document.querySelectorAll(".candle");
+const leftCandle = document.querySelector(".candle.left");
+const midCandle = document.querySelector(".candle.middle");
+const rightCandle = document.querySelector(".candle.right");
+
+/* TEXT */
 const text = document.getElementById("typing-text");
 const hint = document.getElementById("hint");
 
-// CONFETTI
+/* CONFETTI */
 const confettiContainer = document.querySelector(".confetti-container");
 
-// AUDIO
+/* AUDIO */
 const horn = document.getElementById("horn");
 const birthdayMusic = document.getElementById("music");
 
-/* ===============================
-   STATE
-================================ */
+/* STATE */
 let state = "OFF";
 // OFF → ON → CANDLE_LIT → BLOWN
 
 let cakeDropped = false;
 
-/* ===============================
-   SWITCH CLICK
-================================ */
+/* SWITCH CLICKED */
 switchBtn.addEventListener("click", () => {
   if (state === "OFF") {
     turnOn();
@@ -42,9 +43,7 @@ switchBtn.addEventListener("click", () => {
   }
 });
 
-/* ===============================
-   TURN ON (LIGHT ON)
-================================ */
+/* TURN ON */
 function turnOn() {
   state = "ON";
 
@@ -54,6 +53,9 @@ function turnOn() {
   setTimeout(() => {
     dropCake();
     createSprinkles();
+    setTimeout(() => {
+      dropCandles();
+    }, 1700);
     launchConfetti();
   }, 800);
 
@@ -64,9 +66,7 @@ function turnOn() {
   playAudioSequence();
 }
 
-/* ===============================
-   TURN OFF (RESET)
-================================ */
+/* TURN OFF (RESET) */
 function turnOff() {
   state = "OFF";
 
@@ -75,43 +75,19 @@ function turnOff() {
 
   resetCake();
   clearSprinkles();
+  resetCandles();
   clearText();
 
   hint.classList.add("hidden");
 
   stopAudio();
-  document.querySelectorAll(".flame.off").forEach(flame => {
-    flame.classList.remove("off");
+  candles.forEach(candle => {
+    candle.classList.remove("off");
+    candleBlown = 0
   })
 }
 
-/* ===============================
-   CAKE DROP
-================================ */
-function dropCake() {
-  if (cakeDropped) return;
-
-  cake.classList.remove("hidden");
-
-  layers.forEach((layer, i) => {
-    setTimeout(() => {
-      layer.classList.add("drop");
-    }, i * 600);
-  });
-
-  cakeDropped = true;
-}
-
-/* RESET CAKE */
-function resetCake() {
-  layers.forEach(layer => layer.classList.remove("drop"));
-  cake.classList.add("hidden");
-  cakeDropped = false;
-}
-
-/* ===============================
-   TEXT TYPING
-================================ */
+/* TEXT TYPING */
 function showText() {
   text.classList.add("show");
   typeText("Happy Birthday Bestiee! 🎂🥳", 100);
@@ -132,9 +108,29 @@ function clearText() {
   text.classList.remove("show");
 }
 
-/* ===============================
-   SPRINKLES
-================================ */
+// DROP LAYER
+function dropCake() {
+  if (cakeDropped) return;
+
+  cake.classList.remove("hidden");
+
+  layers.forEach((layer, i) => {
+    setTimeout(() => {
+      layer.classList.add("drop");
+    }, i * 600);
+  });
+
+  cakeDropped = true;
+}
+
+// RESET LAYER
+function resetCake() {
+  layers.forEach(layer => layer.classList.remove("drop"));
+  cake.classList.add("hidden");
+  cakeDropped = false;
+}
+
+// SPRINKLES
 function createSprinkles() {
   const colors = ["#ffc8dd", "#ffafcc", "#bde0fe", "#cdb4db", "#ffd6a5"];
   sprinkles.innerHTML = "";
@@ -153,9 +149,7 @@ function clearSprinkles() {
   sprinkles.classList.remove("show");
 }
 
-/* ===============================
-   CONFETTI
-================================ */
+// CONFETTI
 function launchConfetti() {
   const colors = ["#ffc8dd", "#ffafcc", "#bde0fe", "#cdb4db", "#ffd6a5"];
 
@@ -171,9 +165,81 @@ function launchConfetti() {
   }
 }
 
-/* ===============================
-   AUDIO SEQUENCE
-================================ */
+// DROP CANDLES
+function dropCandles() {
+  leftCandle.classList.add("drop");
+
+  setTimeout(() => {
+    rightCandle.classList.add("drop");
+    setTimeout(() => {
+      leftCandle.querySelector(".flame").classList.remove("off");
+      leftCandle.querySelector(".flame").classList.add("on");
+    }, 1000)
+
+    setTimeout(() => {
+      midCandle.classList.add("drop");
+
+      setTimeout(() => {
+        rightCandle.querySelector(".flame").classList.remove("off");
+        rightCandle.querySelector(".flame").classList.add("on");
+
+        setTimeout(() => {
+          midCandle.querySelector(".flame").classList.remove("off");
+          midCandle.querySelector(".flame").classList.add("on");
+        }, 500);
+      }, 1000);
+
+    }, 500);
+
+  }, 500);
+};
+
+function resetCandles() {
+  leftCandle.classList.remove("drop");
+  midCandle.classList.remove("drop");
+  rightCandle.classList.remove("drop");
+
+  leftCandle.querySelector(".flame").classList.remove("on");
+  midCandle.querySelector(".flame").classList.remove("on");
+  rightCandle.querySelector(".flame").classList.remove("on");
+
+  leftCandle.querySelector(".flame").classList.add("off");
+  midCandle.querySelector(".flame").classList.add("off");
+  rightCandle.querySelector(".flame").classList.add("off");
+}
+
+/* BLOW CANDLES */
+let candleBlown = 0;
+
+candles.forEach(candle => {
+
+  candle.addEventListener("click", e => {
+    e.stopPropagation();
+
+    if (state !== "CANDLE_LIT") return;
+
+    candle.querySelector(".flame.on").classList.remove("on");
+    if (!candle.querySelector(".flame").classList.contains("on")) {
+      candle.querySelector(".flame").classList.add("off");
+    };
+    candleBlown++;
+    
+    if (candleBlown >= 3) {
+      candlesBlowned();
+    }
+    
+  });
+});
+
+function candlesBlowned() {
+  hint.innerHTML = "Selamat ulang tahun yang ke-15!!, Semoga semua harapanmu terkabul yaa 🤍";
+  state = "BLOWN";
+
+  birthdayMusic.play();
+  fadeOut(birthdayMusic, 5000);
+}
+
+/* AUDIO */
 function playAudioSequence() {
   horn.currentTime = 0;
   birthdayMusic.currentTime = 0;
@@ -187,8 +253,10 @@ function playAudioSequence() {
   }, 1000);
 
   birthdayMusic.onplay = () => {
-    hint.classList.remove("hidden");
-    hint.innerHTML = "Tekan <b>Spasi</b> untuk meniup lilin ✨";
+    setTimeout(() => {
+      hint.classList.remove("hidden");
+    }, 5000);
+    
     state = "CANDLE_LIT";
   };
 }
@@ -201,37 +269,18 @@ function stopAudio() {
   birthdayMusic.currentTime = 0;
 }
 
-/* ===============================
-   CLICK → BLOW CANDLES
-================================ */
-let candleBlown = 0;
+function fadeOut(audio, duration = 2000) {
+  const step = 0.05;
+  const intervalTime = duration * step;
 
-candles.forEach(candle => {
-
-  candle.addEventListener("click", e => {
-    e.stopPropagation();
-
-    if (state !== "CANDLE_LIT") return;
-    if (candle.classList.contains("off")) return;
-
-    candleBlown++;
-    console.log(candleBlown);
-    
-    if (candleBlown >= 3) {
-      blowCandles();
+  const fade = setInterval(() => {
+    if (audio.volume > 0.035) {
+      audio.volume = Math.max(audio.volume - step, 0.035);
+    } else {
+      clearInterval(fade);
     }
-    
-  });
-});
-
-function blowCandles() {
-  candles.forEach(candle => {
-    const flame = candle.nextElementSibling;
-    flame.classList.add("off");
-  });
-
-  birthdayMusic.volume = 0.01;
-
-  hint.innerHTML = "Selamat memasuki pengalaman hidup yang ke 15 ya!!, Semoga semua harapanmu terkabul 🤍";
-  state = "BLOWN";
+  }, intervalTime);
 }
+
+
+

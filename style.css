@@ -24,10 +24,10 @@ body {
    JUDUL
 ================================ */
 label {
+  font-family: 'Lexend', sans-serif;
   font-size: 32px;
   color: #ff5d8f;
   margin-bottom: 25px;
-  letter-spacing: 1.5px;
 }
 
 /* ===============================

@@ -138,19 +138,25 @@ body.light .toggle {
   background: white;
   border-radius: 6px;
   cursor: pointer;
+  transform: translateY(-400px);
+  transition: transform 1s ease;
+}
+.candle.drop {
+  transform: translateY(0);
 }
 
 .flame {
+  transition: opacity 0.5s ease-in-out;
+  animation: flicker .2s infinite alternate;
+}
+.flame.off {
+  opacity: 0;
+}
+.flame.on {
   width: 14px;
   height: 18px;
   background: radial-gradient(circle, #fff176, #ff5722);
   border-radius: 50%;
-  animation: flicker .2s infinite alternate;
-}
-
-.flame.off {
-  display: none;
-  background: transparent;
 }
 
 /* AGE */
@@ -193,5 +199,14 @@ body.light .toggle {
 
 /* HELPERS */
 .hidden {
-  display: none;
+  opacity: 0;
+}
+
+/* RESPONSIVE-MOBILE */
+
+@media (max-width: 480px) {
+  #hint {
+    margin: 20px;
+    text-align: center;
+  }
 }

@@ -11,52 +11,41 @@
 
 <body class="dark">
 
-  <!-- SWITCH -->
   <div id="switch">
     <div class="toggle"></div>
   </div>
 
-  <!-- TEXT -->
   <h1 id="typing-text"></h1>
-  <p id="hint" class="hidden">Tekan <b>Spasi</b> untuk meniup lilin ✨</p>
+  <p id="hint" class="hidden">Klik pada <b>Lilin</b> untuk meniup lilin ✨</p>
 
-  <!-- CAKE -->
   <div class="cake-container hidden">
 
-    <!-- CANDLES -->
     <div class="candles">
-      <div class="candle">
-        <div class="flame"></div>
+      <div class="candle left">
+        <div class="flame off"></div>
       </div>
-      <div class="candle">
-        <div class="flame"></div>
+      <div class="candle middle">
+        <div class="flame off"></div>
       </div>
-      <div class="candle">
-        <div class="flame"></div>
+      <div class="candle right">
+        <div class="flame off"></div>
       </div>
     </div>
 
-    <!-- LAYERS -->
     <div class="layer layer1"></div>
-
     <div class="layer layer2">
-      <!-- SVG DECOR -->
       <svg class="decor"></svg>
       <svg class="decor"></svg>
     </div>
-
     <div class="layer layer3"></div>
 
-    <!-- SPRINKLES -->
     <div class="sprinkles"></div>
   </div>
 
-  <!-- CONFETTI -->
   <div class="confetti-container"></div>
 
-  <!-- AUDIO -->
-  <audio id="horn" src="audio/party-horn-abrupt-the-foundation-1-00-02.mp3" controls></audio>
-  <audio id="music" src="audio/happy-birthday-lighthearted-music-intro-ra-music-1-1-00-22.mp3" controls></audio>
+  <audio id="horn" src="audio/party-horn-abrupt-the-foundation-1-00-02.mp3"></audio>
+  <audio id="music" src="audio/happy-birthday-lighthearted-music-intro-ra-music-1-1-00-22.mp3"></audio>
 
   <script src="cake.js"></script>
 </body>
