@@ -147,10 +147,11 @@ form {
    RESPONSIVE
 ================================ */
 @media (max-width: 480px) {
-  form {
-    padding: 24px;
+  label {
+    text-align: center;
+    margin: 0 30px 20px 30px;
   }
-
+  
   .custom-select {
     width: 100%;
   }
